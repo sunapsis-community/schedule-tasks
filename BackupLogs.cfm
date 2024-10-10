@@ -14,8 +14,7 @@
         //baseDir = ExpandPath("/ioffice/batch/");
         // for 4.2
         baseDir = "#new PDFDirectory().getPDFBaseDirectoryPath()#/content/";
-        list = DirectoryList("#baseDir#bat", false, "name", "*.log");
-        for( i = 1; i <= list.len(); i++ ) {
+        for( filename in DirectoryList("#baseDir#bat", false, "name", "*.log") ) {
             newFileName = list[i].replace(".log", DateFormat(Now(), "yyyy-mm-dd") & ".log", "all");
             if( !DirectoryExists("#baseDir#/bat-backups") ) {
                 DirectoryCreate("#baseDir#/bat-backups");
@@ -26,8 +25,7 @@
             );
         }
     
-        backupList = DirectoryList("#baseDir#/bat-backups/", false, "name");
-        for( i = 1; i <= backupList.len(); i++ ) {
+        for( filename = DirectoryList("#baseDir#/bat-backups/", false, "name") ) {
             fileInfo = GetFileInfo("#baseDir#/bat-backups/#backupList[i]#");
             if( DateCompare(fileInfo.lastModified, DateAdd("d", -30, Now())) == 1 ) {
                 FileDelete(fileInfo.path);
